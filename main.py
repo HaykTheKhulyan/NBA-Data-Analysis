@@ -67,7 +67,7 @@ def acronym(name):
     elif name == "Washington Wizards":
         return "WAS"            
 
-# this is for cleaning the data from https://www.basketball-reference.com
+# cleans the data from https://www.basketball-reference.com
 def clean_csv(file_name):
     with open("Data/Unclean_Data/" + file_name,"r", newline="") as source: 
         reader = csv.reader(source)
@@ -79,6 +79,14 @@ def clean_csv(file_name):
             writer = csv.writer(result)   
             for row in reader: 
                 writer.writerow((row[0], row[1], row[2], row[3], row[4], acronym(row[5]), row[6], acronym(row[7]), row[8], row[11]))
+
+def print_team_stats(team_list):
+    print("Team    Games    Wins    Losses    Draws    Win %    Point Average")
+    print("------------------------------------------------------------------")
+
+    for team in team_list:
+        pass
+
 
 if __name__ == "__main__":
     # continously asks whether the user wants to clean a file, then cleans the given file
@@ -116,13 +124,4 @@ if __name__ == "__main__":
         # adds the game to the home team's history of games
         teams[row[7]].add_game(Game(row[0], row[1], row[2], row[3], row[4], row[8], row[5], row[6]))
 
-    # prints the average points for each team
-    for team in ordered_team_list:
-        total_points = 0
-
-        # looks at each game for the team's history and adds up its points
-        for game in team.game_history:
-            total_points += game.my_points
-
-        # calculates and prints the mean points
-        print(team.name, "{0:.2f}".format((total_points / len(team.game_history))))
+    print_team_stats(ordered_team_list)
